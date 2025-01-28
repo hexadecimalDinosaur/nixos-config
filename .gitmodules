@@ -1,0 +1,3 @@
+[submodule "home-manager/secrets"]
+	path = home-manager/secrets
+	url = git@github.com:hexadecimalDinosaur/nixos-config-secrets.git
