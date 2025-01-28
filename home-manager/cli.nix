@@ -1,5 +1,9 @@
 { pkgs, ... }:
 {
+  imports = [
+    ./secrets/cli-extra.nix
+  ];
+
   programs.zsh = {
     enable = true;
     syntaxHighlighting.enable = true;
@@ -34,7 +38,7 @@
       '';
       honepot-ssh = "knock -v REDACTED -d 500 && ssh honeypot";
       nmap_shodan = "nmap --script shodan-api --script-args shodan-api.apikey=$(secret-tool lookup shodan shodan-api)";
-      # cs246
+      # uwaterloo - cs246
       "g++20m" = "g++-11 -std=c++20 -fmodules-ts -Wall -g";
       "g++20h" = "g++-11 -std=c++20 -fmodules-ts -c -x c++-system-header";
       "g++20i" = "g++-11 -std=c++20 -Wall -g";
