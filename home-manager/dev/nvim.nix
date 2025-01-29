@@ -13,22 +13,38 @@
           require("nvim-tree").setup()
         '';
       }
+      taboo-vim
       zoxide-vim
       {
         plugin = telescope-nvim;
         type = "lua";
         config = ''
           local builtin = require('telescope.builtin')
-          vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
-          vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
-          vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
-          vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Telescope help tags' })
-          vim.keymap.set('n', '<leader>fs', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
+          local previewers = require("telescope.previewers")
+
+          require "telescope".setup {
+            pickers = {
+              find_files = {
+                enable_preview = true,
+              }
+            }
+          }
+
+          vim.keymap.set('n', 'ft', builtin.pickers, { desc = 'Telescope' })
+          vim.keymap.set('n', 'ff', builtin.find_files, { desc = 'Telescope find files' })
+          vim.keymap.set('n', 'fg', builtin.live_grep, { desc = 'Telescope live grep' })
+          vim.keymap.set('n', 'fb', builtin.buffers, { desc = 'Telescope buffers' })
+          vim.keymap.set('n', 'fh', builtin.help_tags, { desc = 'Telescope help tags' })
+          vim.keymap.set('n', 'fs', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
           vim.keymap.set('n', '<F8>', builtin.lsp_document_symbols, { desc = 'Telescope document symbols' })
-          vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = 'Telescope document references' })
-          vim.keymap.set('n', '<leader>fc', builtin.git_commits, { desc = 'Telescope Git Commits' })
+          vim.keymap.set('n', 'fr', builtin.lsp_references, { desc = 'Telescope document references' })
+          vim.keymap.set('n', 'fc', builtin.git_commits, { desc = 'Telescope Git Commits' })
+          vim.keymap.set('n', 'f>', builtin.commands, { desc = 'Telescope Commands' })
+          vim.keymap.set('n', '<C-P>', builtin.commands, { desc = 'Telescope Commands' })
+          vim.keymap.set('n', '<-/>', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzy search' })
         '';
       }
+      nvim-treesitter.withAllGrammars
       nvim-lspconfig
       {
         plugin = lsp-zero-nvim;
@@ -118,9 +134,18 @@
               end,
             },
           })
-          
+
           require'lspconfig'.pyright.setup{}
           require'lspconfig'.nixd.setup{}
+          require'lspconfig'.marksman.setup{}
+          require'lspconfig'.jdtls.setup{}
+          require'lspconfig'.jsonls.setup{}
+          require'lspconfig'.html.setup{}
+          require'lspconfig'.cssls.setup{}
+          require'lspconfig'.eslint.setup{}
+          require'lspconfig'.clangd.setup{}
+          require'lspconfig'.bashls.setup{}
+          require'lspconfig'.yamlls.setup{}
         '';
       }
       cmp-nvim-lsp
