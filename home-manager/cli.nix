@@ -36,28 +36,24 @@
           hi NonText ctermfg=0 |\
           Codi python"
       '';
-      honepot-ssh = "knock -v REDACTED -d 500 && ssh honeypot";
       nmap_shodan = "nmap --script shodan-api --script-args shodan-api.apikey=$(secret-tool lookup shodan shodan-api)";
-      # uwaterloo - cs246
-      "g++20m" = "g++-11 -std=c++20 -fmodules-ts -Wall -g";
-      "g++20h" = "g++-11 -std=c++20 -fmodules-ts -c -x c++-system-header";
-      "g++20i" = "g++-11 -std=c++20 -Wall -g";
       "nix-search-pkgs" = "nix --extra-experimental-features 'nix-command flakes' search nixpkgs";
       git-root = "cd $(git rev-parse --show-toplevel)";
     };
     localVariables = {
-      UBXOPTS = "-P 14";
+      UBXOPTS = "-P 14";  # U-blox 7 GPS receiver
     };
     initExtra = ''
-      uwldapsearch() {
-        ldapsearch -x -b "dc=uwaterloo,dc=ca" -H ldap://uwldap.uwaterloo.ca "(&(objectclass=person)(objectClass=inetLocalMailRecipient)(displayName=*$1*))"
-      }
       export PATH=$HOME/.local/bin:$PATH
+      export BW_SESSION="$(secret-tool lookup bw bw-session)"
+
+      # for distrobox
       if lsb_release -d | grep "Ubuntu\|Debian" &> /dev/null; then
         alias bat="batcat"
       else
         eval $(thefuck --alias)
       fi
+
       source ${pkgs.zsh-nix-shell}/share/zsh-nix-shell/nix-shell.plugin.zsh
     '';
   };
