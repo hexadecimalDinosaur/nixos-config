@@ -1,39 +1,51 @@
-{ config, pkgs, ... }:
-
 {
-  home.username = "hexa";
-  home.homeDirectory = "/home/hexa";
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
-  home.stateVersion = "24.11"; # Don't change
+let
+  pyPkgList = lib.mkOptionType {
+    name = "pymods";
+    merge = _: defs: map (def: def.value) defs;
+  };
+in
+{
+  options.py3Pkgs = lib.mkOption {
+    type = pyPkgList;
+    default = _: [ ];
+  };
 
   imports = [
     # ./plasma.nix
-    ./nvim.nix
     ./cli.nix
-    ./packages.nix
-    ./nixpkgs_maintenance.nix
-    ./python.nix
+    ./misc-packages.nix
+    ./dev
     ./ssh.nix
+    ./ctf.nix
   ];
+  
+  config = {
+    home.username = "hexa";
+    home.homeDirectory = "/home/hexa";
 
-  home.file = {
-  };
+    home.stateVersion = "24.11"; # Don't change
 
-  home.sessionVariables = {
-    EDITOR = "nvim";
-  };
-
-programs = {
-  direnv = {
-      enable = true;
-      enableZshIntegration = true; # see note on other shells below
-      nix-direnv.enable = true;
+    home.file = {
     };
-};
 
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
+    home.sessionVariables = {
+      EDITOR = "nvim";
+    };
 
-  xsession.enable = true;
-  xsession.windowManager.command = ''startplasma-x11'';
+    home.packages = with pkgs; [
+      (python311.withPackages (ps: builtins.concatMap (f: f ps) config.py3Pkgs))
+    ];
+
+    xsession.enable = true;
+
+    # Let Home Manager install and manage itself.
+    programs.home-manager.enable = true;
+  };
 }
