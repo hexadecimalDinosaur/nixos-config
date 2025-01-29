@@ -1,6 +1,6 @@
 { pkgs, config, ... }:
 let
-  unstable = import <nixpkgs-unstable> { 
+  unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;
     config.permittedInsecurePackages = [
       "olm-3.2.16"
@@ -17,12 +17,10 @@ let
     feishin
   ];
   stable-pkgs = with pkgs; [
-    ropgadget
     eyedropper
     vcv-rack
     fedifetcher
     ricochet-refresh
-    cfr
     osu-lazer
     upscayl
     keybase-gui
@@ -30,7 +28,6 @@ let
     kbfs
     yubikey-manager
     mediainfo
-    upx
     teams-for-linux
     neovide
     discover-overlay
