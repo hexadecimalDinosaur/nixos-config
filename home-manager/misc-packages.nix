@@ -33,6 +33,15 @@ let
     discover-overlay
     detect-it-easy
     github-desktop
+    wireguard-vanity-address
+    zoom-us
+    gocryptfs
+    fuse-archive
+    sshfs
+    fuse3
+    fuseiso
+    sysz
+    asciinema
   ];
 
 in
