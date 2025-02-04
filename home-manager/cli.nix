@@ -37,7 +37,7 @@
           Codi python"
       '';
       nmap_shodan = "nmap --script shodan-api --script-args shodan-api.apikey=$(secret-tool lookup shodan shodan-api)";
-      "nix-search-pkgs" = "nix --extra-experimental-features 'nix-command flakes' search nixpkgs";
+      "nix-search-pkgs" = "nix search nixpkgs";
       git-root = "cd $(git rev-parse --show-toplevel)";
     };
     localVariables = {
@@ -55,23 +55,10 @@
       fi
 
       source ${pkgs.zsh-nix-shell}/share/zsh-nix-shell/nix-shell.plugin.zsh
+
+      autoload -U compinit; compinit
+      source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh
     '';
-  };
-  programs.git = {
-    enable = true;
-    userName = "Ivy Fan-Chiang";
-    userEmail = "dev@ivyfanchiang.ca";
-    extraConfig = {
-      commit = {
-        gpgsign = true;
-      };
-      user = {
-        signingkey = "38FB5AF70FFA291D6809B85D37664215B5B9EE1C";
-      };
-      push = {
-        autoSetupRemote = true;
-      };
-    };
   };
   programs.zoxide = {
     enable = true;
