@@ -30,6 +30,9 @@
     av
     imageio-ffmpeg
 
+    # computation
+    z3
+
     # online apis
     datadog
     hetzner
