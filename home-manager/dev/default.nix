@@ -48,6 +48,10 @@ let
     git
     gitkraken
     direnv
+    lazygit
+    lazysql
+    lazycli
+    infisical
   ];
   unstable-pkgs = with unstable; [
     flarectl
@@ -60,6 +64,7 @@ in
     ./python-packages.nix
     ./vscode.nix
     ./nvim.nix
+    ./git.nix
   ];
 
   programs = {
