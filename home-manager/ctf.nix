@@ -2,8 +2,8 @@
 let
   unstable = import <nixpkgs-unstable> { };
 
-  # unstable-pkgs = with unstable; [
-  # ];
+  unstable-pkgs = with unstable; [
+  ];
 
   rev = with pkgs; [
     # static analysis
@@ -21,38 +21,49 @@ let
         findcrypt
       ]))
     detect-it-easy
+
     # malware analysis
     # ===================
     yara
     # yara-x
   ];
   forensics = with pkgs; [
-    # forensics
+    # network
     # ===================
-    volatility3
     wireshark
-    exiftool
     termshark
-    binwalk
-    imhex
-    evtx
-    # autopsy
-    imagemagick
     tcpdump
     ngrep
+
+    # disks
+    # ===================
+    secretscanner
+    
+    # memory
+    # ===================
+    volatility3
+
+    # logs
+    # ===================
+    evtx
+    
+    # files/stego
+    # ===================
+    exiftool
+    binwalk
+    imhex
+    # autopsy
+    imagemagick
+    stegsolve
+    stegseek
+    steghide
+    zsteg
 
     # osint
     # ===================
     uncover
     # theharvester
-
-    # steganography
-    # ===================
     sherlock
-    stegsolve
-    stegseek
-    steghide
-    zsteg
   ];
   web = with pkgs; [
     sqlmap
@@ -105,6 +116,8 @@ let
   misc = with pkgs; [
     pwncat
     wordlists
+    horcrux
+    arsenal
   ];
   custom = [
     (import ./custom-pkgs/vol2.nix)
@@ -141,7 +154,7 @@ in
   ];
 
   home.packages = builtins.concatLists [
-    # unstable-pkgs
+    unstable-pkgs
     rev
     web
     pwn
