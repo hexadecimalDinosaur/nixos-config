@@ -26,7 +26,8 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     install $src/volatility_2.6_lin64_standalone -m 555 -p -D -T $out/bin/volatility2
-    ln -s $out/bin/volatility2 $out/vol2
+    ln -s $out/bin/volatility2 $out/bin/vol2
+    chmod 555 $out/bin/vol2
   '';
 
   meta = with lib; {
