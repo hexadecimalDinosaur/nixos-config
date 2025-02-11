@@ -19,5 +19,6 @@
     ktailctl
     wireguard-vanity-address
     wireguard-tools
+    protonvpn-cli_2
   ];
 }

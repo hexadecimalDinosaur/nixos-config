@@ -16,13 +16,13 @@
     (let
       module = fetchTarball {
         name = "source";
-        url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-2.tar.gz";
-        sha256 = "sha256-DN5/166jhiiAW0Uw6nueXaGTueVxhfZISAkoxasmz/g=";
+        url = "https://git.lix.systems/lix-project/nixos-module/archive/2.92.0.tar.gz";
+        sha256 = "sha256-YMLrcBpf0TR5r/eaqm8lxzFPap2TxCor0ZGcK3a7+b8=";
       };
       lixSrc = fetchTarball {
         name = "source";
-        url = "https://git.lix.systems/lix-project/lix/archive/2.91.1.tar.gz";
-        sha256 = "sha256-hiGtfzxFkDc9TSYsb96Whg0vnqBVV7CUxyscZNhed0U=";
+        url = "https://git.lix.systems/lix-project/lix/archive/2.92.0.tar.gz";
+        sha256 = "sha256-CCKIAE84dzkrnlxJCKFyffAxP3yfsOAbdvydUGqq24g=";
       };
       in import "${module}/module.nix" { lix = lixSrc; }
     )

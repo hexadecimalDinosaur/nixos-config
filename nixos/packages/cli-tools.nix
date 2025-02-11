@@ -20,6 +20,7 @@
     owofetch
     fastfetch
     lsb-release
+    sysz
     # shell improvements
     thefuck
     eza
@@ -34,6 +35,7 @@
     ripgrep
     zoxide
     tmux
+    mangl
     # file management
     unzip
     unrar
@@ -53,6 +55,7 @@
     trippy
     asn
     lsof
+    speedtest-cli
     # misc
     lolcat
     libsecret
@@ -61,5 +64,6 @@
     wayland-utils
     gnome-randr
     calcurse
+    font-config-info
   ]);  
 }
