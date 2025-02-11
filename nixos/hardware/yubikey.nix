@@ -23,4 +23,6 @@
       libnotify = true;
     };
   };
+
+  hardware.gpgSmartcards.enable = true;
 }
