@@ -13,15 +13,29 @@
   config = {
     networking.useDHCP = lib.mkDefault true;
 
-    boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "uas" "sd_mod" ];
-    boot.initrd.kernelModules = [ ];
-    boot.kernelModules = [ "kvm-amd" ];
-    boot.extraModulePackages = [ ];
-
-    hardware.enableRedistributableFirmware = lib.mkDefault true;
-    hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    boot = {
+      initrd = {
+        availableKernelModules = [ "nvme" "xhci_pci" "uas" "sd_mod" ];
+        kernelModules = [ "amdgpu" ];
+      };
+      kernelModules = [ "kvm-amd" ];
+      extraModulePackages = [ ];
+    };
 
     hardware = {
+      enableRedistributableFirmware = lib.mkDefault true;
+      cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+      graphics = {
+        extraPackages = with pkgs; [
+          amdvlk
+          rocmPackages.clr.icd
+        ];
+        extraPackages32 = with pkgs; [
+          driversi686Linux.amdvlk
+        ];
+      };
+
       bluetooth = {
         enable = true;
         powerOnBoot = false;
@@ -49,6 +63,7 @@
       lm_sensors
       acpi
       vrrtest
+      clinfo
       # plasma settings support
       kdePackages.colord-kde
     ];
