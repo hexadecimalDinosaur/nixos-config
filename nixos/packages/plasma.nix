@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    # communication
-    kdePackages.neochat
     # office
     kdePackages.okular
     kdePackages.kcalc
@@ -20,14 +18,6 @@
     kdePackages.kpat
     kdePackages.ksudoku
     kdePackages.kreversi
-    # ricing
-    kdePackages.sierra-breeze-enhanced
-    kdePackages.karousel
-    kdePackages.oxygen-sounds
-    kdePackages.oxygen-icons
-    kdePackages.oxygen
-    kdePackages.kruler
-    kdePackages.applet-window-buttons6
     # plasma settings
     kdePackages.plasma-workspace-wallpapers
     kdePackages.kgamma
@@ -43,7 +33,6 @@
     kdePackages.filelight
     kdePackages.ktorrent
     kdePackages.kruler
-    kdePackages.krdc
     kdePackages.kget
     kdePackages.keysmith
     kdePackages.kcolorchooser

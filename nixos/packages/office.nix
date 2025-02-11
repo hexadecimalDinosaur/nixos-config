@@ -38,6 +38,7 @@
     ghostscript
     # communication
     thunderbird-latest
+    birdtray
     discord
     betterdiscordctl
     signal-desktop

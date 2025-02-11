@@ -11,6 +11,7 @@
     pyright
     clang-tools
     nixd
+    nix-output-monitor
     python311
     jdk21
     pipx

@@ -20,6 +20,7 @@
     age
     age-plugin-yubikey
     age-plugin-fido2-hmac
+    gocryptfs
     # backups
     rsync
     restic

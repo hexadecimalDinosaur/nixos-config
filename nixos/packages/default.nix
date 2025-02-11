@@ -13,6 +13,7 @@ in
     ( import ./misc.nix { unstable = nixpkgs-unstable; })
     ./office.nix
     ./plasma.nix
+    ./ricing.nix
     ( import ./security-tools.nix { unstable = nixpkgs-unstable; })
   ];
 
