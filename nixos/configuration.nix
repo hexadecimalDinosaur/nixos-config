@@ -26,8 +26,9 @@
       };
       in import "${module}/module.nix" { lix = lixSrc; }
     )
+    <agenix/modules/age.nix>
   ];
-  
+
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   services = {

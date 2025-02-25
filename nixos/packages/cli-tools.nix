@@ -16,6 +16,8 @@
     hyfetch
     htop
     btop
+    usbtop
+    iftop
     nvtopPackages.full
     owofetch
     fastfetch
@@ -65,5 +67,6 @@
     gnome-randr
     calcurse
     font-config-info
-  ]);  
+    jq
+  ]);
 }

@@ -18,6 +18,7 @@
     breeze-hacked-cursor-theme
     capitaine-cursors
     whitesur-gtk-theme
+    catppuccin-cursors
     # gtk themes
     yaru-theme
     materia-theme
@@ -33,6 +34,7 @@
     lightly-qt
     whitesur-kde
     qogir-kde
+    catppuccin-kde
     # plasma addons
     kdePackages.sierra-breeze-enhanced
     kdePackages.karousel

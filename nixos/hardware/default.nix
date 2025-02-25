@@ -43,7 +43,7 @@
     };
 
     services = {
-      printing.enable = true;       # cups printers    
+      printing.enable = true;       # cups printers
       fwupd.enable = true;          # firmware management
       colord.enable = true;         # display color profiles
       libinput.enable = true;       # touchpad
@@ -66,6 +66,9 @@
       clinfo
       # plasma settings support
       kdePackages.colord-kde
+      # bluetooth
+      bluetui
+      bluetuith
     ];
 
     # boot.extraModulePackages = with config.boot.kernelPackages; [ zenpower ];
