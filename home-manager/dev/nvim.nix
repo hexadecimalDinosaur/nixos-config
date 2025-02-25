@@ -9,16 +9,50 @@
       {
         plugin = nvim-tree-lua;
         type = "lua";
-        config = ''
-          require("nvim-tree").setup()
+        config = /* lua */ ''
+          -- require("nvim-tree").setup()
+          local HEIGHT_RATIO = 0.8
+          local WIDTH_RATIO = 0.5
+          require('nvim-tree').setup({
+            view = {
+              float = {
+                enable = true,
+                open_win_config = function()
+                  local screen_w = vim.opt.columns:get()
+                  local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+                  local window_w = screen_w * WIDTH_RATIO
+                  local window_h = screen_h * HEIGHT_RATIO
+                  local window_w_int = math.floor(window_w)
+                  local window_h_int = math.floor(window_h)
+                  local center_x = (screen_w - window_w) / 2
+                  local center_y = ((vim.opt.lines:get() - window_h) / 2)
+                                   - vim.opt.cmdheight:get()
+                  return {
+                    border = 'rounded',
+                    relative = 'editor',
+                    row = center_y,
+                    col = center_x,
+                    width = window_w_int,
+                    height = window_h_int,
+                  }
+                  end,
+              },
+              width = function()
+                return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+              end,
+            },
+          })
+          local api = require "nvim-tree.api"
+          vim.keymap.set("n", "<C-f>", api.tree.toggle)
         '';
       }
       taboo-vim
       zoxide-vim
+      vim-gitgutter
       {
         plugin = telescope-nvim;
         type = "lua";
-        config = ''
+        config = /* lua */ ''
           local builtin = require('telescope.builtin')
           local previewers = require("telescope.previewers")
 
@@ -44,12 +78,32 @@
           vim.keymap.set('n', '<-/>', builtin.current_buffer_fuzzy_find, { desc = '[/] Fuzzy search' })
         '';
       }
-      nvim-treesitter.withAllGrammars
+      {
+        plugin = nvim-treesitter.withAllGrammars;
+        type = "lua";
+        config = /* lua */ ''
+          require'nvim-treesitter.configs'.setup {
+            highlight = {
+              enable = true,
+              additional_vim_regex_highlighting = false,
+            },
+            incremental_selection = {
+              enable = true,
+            },
+          }
+          vim.wo.foldmethod = 'expr'
+          vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+        '';
+      }
+      # {
+      #   plugin = hmts-nvim;
+      #   type = "lua";
+      # }
       nvim-lspconfig
       {
         plugin = lsp-zero-nvim;
         type = "lua";
-        config = ''
+        config = /* lua */ ''
           vim.opt.signcolumn = 'yes'
           local lspconfig_defaults = require('lspconfig').util.default_config
           lspconfig_defaults.capabilities = vim.tbl_deep_extend(
@@ -79,7 +133,7 @@
       {
         plugin = lightline-vim;
         type = "viml";
-        config = ''
+        config = /* lua */ ''
           let g:lightline = {
                 \ 'colorscheme': 'one',
                 \ 'active':{
@@ -105,7 +159,7 @@
       {
         plugin = nvim-cmp;
         type = "lua";
-        config = ''
+        config = /* lua */ ''
           local cmp = require('cmp')
           local cmp_action = require('lsp-zero').cmp_action()
 
@@ -149,18 +203,35 @@
         '';
       }
       cmp-nvim-lsp
+      {
+        plugin = whitespace-nvim;
+        type = "lua";
+        config = /* lua */ ''
+          require('whitespace-nvim').setup({
+            highlight = 'DiffDelete',
+            ignored_filetypes = { 'TelescopePrompt', 'Trouble', 'help', 'dashboard' },
+            ignore_terminal = true,
+            return_cursor = true,
+          })
+          vim.keymap.set('n', '<Leader>t', require('whitespace-nvim').trim)
+        '';
+      }
     ];
-    extraLuaConfig = ''
+    extraLuaConfig = /* lua */ ''
       vim.opt.number = true
       vim.opt.laststatus = 2
       vim.opt.cursorline = true
       vim.api.nvim_set_hl(0, "CursorLineNR", { ctermbg=grey })
-      vim.cmd([[colorscheme catppuccin-mocha]])
-      function show_nvim_tree()
-        vim.cmd([[NvimTreeToggle]])
-      end
-      vim.keymap.set("n", "<C-f>", show_nvim_tree)
       vim.keymap.set("n", "<C-t>", ":tabnew<CR>")
     '';
+    extraConfig = /* vim */ ''
+      au BufRead,BufNewFile *.hujson set filetype=json5
+      set foldlevel=99
+      colorscheme catppuccin-mocha
+    '';
   };
+
+  home.packages = [
+    pkgs.neovide
+  ];
 }

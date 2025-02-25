@@ -1,20 +1,17 @@
-{ pkgs, config, ... }:
+{ unstable }: { pkgs, config, ... }:
 let
-  unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
-    config.permittedInsecurePackages = [
-      "olm-3.2.16"
-      "electron-31.7.7"
-    ];
-  };
-
   unstable-pkgs = with unstable; [
     tuba
     anytype
     nheko
-    kdePackages.neochat
+    cinny-desktop
     kdePackages.karousel
-    feishin
+    zoom-us
+    teams-for-linux
+    halloy
+    kdocker
+    floorp
+    vivaldi
   ];
   stable-pkgs = with pkgs; [
     eyedropper
@@ -26,22 +23,13 @@ let
     keybase-gui
     keybase
     kbfs
-    yubikey-manager
     mediainfo
-    teams-for-linux
-    neovide
     discover-overlay
     detect-it-easy
     github-desktop
-    wireguard-vanity-address
-    zoom-us
-    gocryptfs
-    fuse-archive
-    sshfs
-    fuse3
-    fuseiso
-    sysz
     asciinema
+    bitwarden-cli
+    fluent-reader
   ];
 
 in

@@ -1,7 +1,5 @@
-{ pkgs, ... }:
+{ unstable }: { pkgs, ... }:
 let
-  unstable = import <nixpkgs-unstable> { };
-
   build-tools = with pkgs; [
     clang_14
     cmake
@@ -14,7 +12,6 @@ let
   ];
   lang-servers = with pkgs; [
     vscode-langservers-extracted
-    pyright
     nixd
     jdt-language-server
     bash-language-server
@@ -27,18 +24,14 @@ let
     seer
     pwndbg
   ];
-  nixpkgs-tools = with unstable; [
-    nixfmt-rfc-style
-    nixpkgs-review
-    hydra-check
-  ];
   ides = with pkgs; [
     arduino-ide
     jetbrains.pycharm-professional
     jetbrains.dataspell
-    # jetbrains.idea-ultimate
-    # jetbrains.clion
-
+    # jetbrains.datagrip
+    jetbrains.idea-ultimate
+    jetbrains.clion
+    (callPackage ./../custom-pkgs/jetbrains-fleet.nix { })
   ];
   tools = with pkgs; [
     insomnia
@@ -61,9 +54,10 @@ let
 in
 {
   imports = [
-    ./python-packages.nix
-    ./vscode.nix
+    ./python.nix
     ./nvim.nix
+    ( import ./vscode.nix { inherit unstable; } )
+    ( import ./nix-dev.nix { inherit unstable; } )
     ./git.nix
   ];
 
@@ -80,7 +74,6 @@ in
     build-tools
     lang-servers
     debuggers
-    nixpkgs-tools
     ides
     tools
     unstable-pkgs
