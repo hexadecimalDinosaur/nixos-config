@@ -27,7 +27,7 @@
       hm-update = "home-manager switch";
       sudo = "sudo ";
       cat = "bat --plain --plain";
-      codi = ''
+      codi = /* sh */ ''
         nvim -c \
           "let g:startify_disable_at_vimenter = 1 |\
           set bt=nofile ls=0 noru nonu nornu |\
@@ -36,20 +36,29 @@
           hi NonText ctermfg=0 |\
           Codi python"
       '';
-      nmap_shodan = "nmap --script shodan-api --script-args shodan-api.apikey=$(secret-tool lookup shodan shodan-api)";
+      nmap_shodan = /* sh */ "nmap --script shodan-api --script-args shodan-api.apikey=$(secret-tool lookup shodan shodan-api)";
       "nix-search-pkgs" = "nix search nixpkgs";
-      git-root = "cd $(git rev-parse --show-toplevel)";
+      git-root = /* sh */ "cd $(git rev-parse --show-toplevel)";
     };
-    localVariables = {
-      UBXOPTS = "-P 14";  # U-blox 7 GPS receiver
-    };
-    initExtra = ''
+    initExtra = /* bash */''
       export PATH=$HOME/.local/bin:$PATH
+
+      export UBXOPTS="-P 14" # U-blox 7 GPS receiver
+      export PYTHONSTARTUP="$HOME/.pythonstartup"
       export BW_SESSION="$(secret-tool lookup bw bw-session)"
+
+      download_nixpkgs_cache_index () {
+        filename="index-$(uname -m | sed 's/^arm64$/aarch64/')-$(uname | tr A-Z a-z)"
+        mkdir -p ~/.cache/nix-index && cd ~/.cache/nix-index
+        # -N will only download a new version if there is an update.
+        wget -q -N https://github.com/nix-community/nix-index-database/releases/latest/download/$filename
+        ln -f $filename files
+      }
 
       # for distrobox
       if lsb_release -d | grep "Ubuntu\|Debian" &> /dev/null; then
         alias bat="batcat"
+        alias secret-tool="distrobox-host-exec secret-tool"
       else
         eval $(thefuck --alias)
       fi

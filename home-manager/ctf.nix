@@ -1,25 +1,27 @@
-{ pkgs, config, libs, ... }:
+{ unstable }: { pkgs, config, libs, ... }:
 let
-  unstable = import <nixpkgs-unstable> { };
-
   unstable-pkgs = with unstable; [
+    volatility2-bin
   ];
+
+  ghidra-install = (unstable.ghidra.withExtensions (
+    p: with p; [
+      ghidra-golanganalyzerextension
+      sleighdevtools
+      gnudisassembler
+      machinelearning
+      findcrypt
+      kaiju
+  ]));
 
   rev = with pkgs; [
     # static analysis
     # ===================
     radare2
     cfr
+    ghidra-install
     # jadx
     upx
-    (ghidra.withExtensions (
-      p: with p; [
-        ghidra-golanganalyzerextension
-        sleighdevtools
-        gnudisassembler
-        machinelearning
-        findcrypt
-      ]))
     detect-it-easy
 
     # malware analysis
@@ -38,7 +40,9 @@ let
     # disks
     # ===================
     secretscanner
-    
+    autopsy
+    sleuthkit
+
     # memory
     # ===================
     volatility3
@@ -46,7 +50,7 @@ let
     # logs
     # ===================
     evtx
-    
+
     # files/stego
     # ===================
     exiftool
@@ -118,16 +122,17 @@ let
     wordlists
     horcrux
     arsenal
+    seclists
   ];
-  custom = [
-    (import ./custom-pkgs/vol2.nix)
+  custom = with pkgs; [
+    (callPackage ./custom-pkgs/binaryninja.nix { })
   ];
 in
 {
   py3Pkgs = ps: with ps; [
     # forensics
     # ===================
-    # dissect
+    dissect
     evtx
     # pwn
     pwntools
