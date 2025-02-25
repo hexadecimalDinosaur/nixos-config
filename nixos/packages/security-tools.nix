@@ -1,4 +1,4 @@
-{ unstable }: { pkgs, ... }:
+{ unstable }: { pkgs, lib, ... }:
 {
   environment.systemPackages = (with unstable; [
     cryptomator
@@ -14,6 +14,8 @@
     bitwarden-desktop
     libsecret
     # encryption
+    (lib.getOutput "dev" gpgme)
+    gpg-tui
     picocrypt
     picocrypt-cli
     veracrypt
@@ -21,6 +23,7 @@
     age-plugin-yubikey
     age-plugin-fido2-hmac
     gocryptfs
+    (callPackage <agenix/pkgs/agenix.nix> {})
     # backups
     rsync
     restic

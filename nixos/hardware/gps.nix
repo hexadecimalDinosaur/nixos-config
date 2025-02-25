@@ -2,7 +2,7 @@
 {
   services = {
     udev = {
-      extraRules = ''
+      extraRules = /* udev */ ''
         KERNEL=="ttyACM[0-9]*", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{idVendor}=="1546", ATTRS{idProduct}=="01a7", SYMLINK+="gps-tty"
       '';
     };
