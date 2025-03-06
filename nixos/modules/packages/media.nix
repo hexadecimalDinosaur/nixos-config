@@ -1,12 +1,27 @@
-{ unstable }: { pkgs, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = (with pkgs; [
+  environment.systemPackages = with pkgs; [
     feh
     vlc
     ffmpeg-full
     spotify
-    calibre
-    rssguard
+    ( calibre.overrideAttrs (finalAttrs: prevAttrs: {
+      preFixup = (
+        builtins.replaceStrings
+          [
+            ''
+              wrapProgram $program \
+            ''
+          ]
+          [
+            ''
+              wrapProgram $program \
+                --prefix LD_LIBRARY_PATH : ${pkgs.openssl.out}/lib \
+            ''
+          ]
+          prevAttrs.preFixup
+      );
+    }))
     audacity
     musescore
     cmus
@@ -32,7 +47,5 @@
     gst_all_1.gst-plugins-ugly
     gst_all_1.gst-libav
     gst_all_1.gst-vaapi
-  ]) ++ (with unstable; [
-    ncspot
-  ]);
+  ];
 }

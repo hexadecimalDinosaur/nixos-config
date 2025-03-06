@@ -1,4 +1,4 @@
-{ unstable }: { config, pkgs, ... }:
+{ unstable, config, pkgs, ... }:
 {
   programs.zsh.enable = true;
   programs.mtr.enable = true;

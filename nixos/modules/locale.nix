@@ -1,9 +1,8 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 {
-  # Set your time zone.
-  time.timeZone = "America/Toronto";
+  # left null to enable timedatectl control
+  # time.timeZone = "America/Toronto";
 
-  # Select internationalisation properties.
   i18n.defaultLocale = "en_CA.UTF-8";
 
   i18n.extraLocaleSettings = {

@@ -21,7 +21,6 @@
     catppuccin-cursors
     # gtk themes
     yaru-theme
-    materia-theme
     materia-theme-transparent
     layan-gtk-theme
     tokyonight-gtk-theme

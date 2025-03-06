@@ -1,6 +1,6 @@
-{ unstable }: { pkgs, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = (with unstable; []) ++ (with pkgs; [
+  environment.systemPackages = (with pkgs; [
     direnv
     gh
     remmina
@@ -24,9 +24,12 @@
     nodejs
   ]);
 
-  programs.java = {
-    enable = true;
-    package = pkgs.jdk21;
-    binfmt = true;
+  programs = {
+    java = {
+      enable = true;
+      package = pkgs.jdk21;
+      binfmt = true;
+    };
+    adb.enable = true;
   };
 }

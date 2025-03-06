@@ -1,22 +1,32 @@
-{ pkgs, ... }:
-
+{ lib, pkgs, ... }:
 {
-  services.tailscale.enable = true;
-  services.tailscale.useRoutingFeatures = "client";
-  services.tailscale.openFirewall = true;
+  services = {
+    tailscale = {
+      enable = true;
+      useRoutingFeatures = lib.mkDefault "client";
+      openFirewall = true;
+    };
+    openvpn = {
+      servers = {
+      };
+    };
+  };
 
-  networking.wireguard.enable = true;
+  networking = {
+    wireguard.enable = true;
+
+    networkmanager.plugins = with pkgs; [
+      networkmanager-openvpn
+      networkmanager-openconnect
+    ];
+  };
 
   programs.openvpn3.enable = true;
-  services.openvpn.servers = {
-  };
 
   environment.systemPackages = with pkgs; [
     openvpn3
     openvpn
-    networkmanager-openvpn
-    networkmanager-openconnect
-    ktailctl
+    openconnect
     wireguard-vanity-address
     wireguard-tools
     protonvpn-cli_2

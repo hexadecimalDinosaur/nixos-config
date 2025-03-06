@@ -1,8 +1,6 @@
 { pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    steam
-    steam-run-free
     steamcmd
     steam-tui
     steam-rom-manager

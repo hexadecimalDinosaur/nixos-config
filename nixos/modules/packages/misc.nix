@@ -1,4 +1,4 @@
-{ unstable }: { config, pkgs, ... }:
+{ pkgs, unstable, ... }:
 {
   environment.systemPackages = (with pkgs; [
     gparted
@@ -8,4 +8,11 @@
     fuseiso
   ]) ++ (with unstable; [
   ]);
+
+  programs = {
+    weylus = {
+      enable = true;
+      openFirewall = true;
+    };
+  };
 }
