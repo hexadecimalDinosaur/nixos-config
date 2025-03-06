@@ -1,8 +1,14 @@
-{ pkgs, config, lib, ... }:
+{ ... }:
 {
-  networking.networkmanager = {
-    enable = true;
-    # wifi.powersave = true;
+  networking = {
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        backend = "wpa_supplicant";
+        # powersave = true;
+      };
+    };
   };
 
   services = {
@@ -21,5 +27,4 @@
     dnsovertls = "opportunistic";
 
   };
-  networking.networkmanager.dns = "systemd-resolved";
 }
