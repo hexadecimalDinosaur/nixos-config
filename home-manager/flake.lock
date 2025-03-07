@@ -54,8 +54,8 @@
     "secrets": {
       "flake": false,
       "locked": {
-        "lastModified": 1741381140,
-        "narHash": "sha256-pKFxcW8StMR5HBQudkrUzKOZep1FWV8j2P6TqB/VXzk=",
+        "lastModified": 1741386768,
+        "narHash": "sha256-5EvmTaZ1r33uI5B17zUkDA2KVbhziU3juvGY1RWjW1E=",
         "path": "/home/hexa/git/nixos-config-secrets",
         "type": "path"
       },
