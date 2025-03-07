@@ -1,6 +1,6 @@
-{ unstable }: { pkgs, ... }:
+{ pkgs, ... }:
 {
-  home.packages = with unstable; [
+  home.packages = with pkgs.unstable; [
     nixfmt-rfc-style
     nixpkgs-review
     hydra-check
@@ -8,5 +8,6 @@
     nix-du
     nix-btm
     nix-inspect
+    nurl
   ];
 }

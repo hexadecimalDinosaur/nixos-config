@@ -1,10 +1,7 @@
-{ unstable }: { pkgs, config, libs, ... }:
+{ pkgs, ... }:
 let
-  unstable-pkgs = with unstable; [
-    volatility2-bin
-  ];
 
-  ghidra-install = (unstable.ghidra.withExtensions (
+  ghidra-install = (pkgs.unstable.ghidra.withExtensions (
     p: with p; [
       ghidra-golanganalyzerextension
       sleighdevtools
@@ -23,6 +20,7 @@ let
     # jadx
     upx
     detect-it-easy
+    apktool
 
     # malware analysis
     # ===================
@@ -36,6 +34,7 @@ let
     termshark
     tcpdump
     ngrep
+    httptoolkit
 
     # disks
     # ===================
@@ -46,6 +45,7 @@ let
     # memory
     # ===================
     volatility3
+    unstable.volatility2-bin
 
     # logs
     # ===================
@@ -125,7 +125,7 @@ let
     seclists
   ];
   custom = with pkgs; [
-    (callPackage ./custom-pkgs/binaryninja.nix { })
+    (callPackage ./../custom-pkgs/binaryninja.nix { })
   ];
 in
 {
@@ -134,7 +134,9 @@ in
     # ===================
     dissect
     evtx
+
     # pwn
+    # ===================
     pwntools
     ropgadget
 
@@ -156,10 +158,11 @@ in
     # analysis
     # ===================
     yara-python
+
+    ( callPackage ./../custom-pkgs/android-unpinner.nix { } )
   ];
 
   home.packages = builtins.concatLists [
-    unstable-pkgs
     rev
     web
     pwn
