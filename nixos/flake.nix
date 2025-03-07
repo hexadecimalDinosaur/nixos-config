@@ -15,7 +15,7 @@
     };
   };
 
-  outputs ={
+  outputs = {
     nixpkgs,
     nixpkgs-unstable,
     nixos-hardware,
@@ -41,6 +41,27 @@
           nixos-hardware.nixosModules.framework-13-7040-amd
           agenix.nixosModules.default
           { environment.systemPackages = [ agenix.packages.${system}.default ]; }
+          {
+            nix.registry = {
+              nixpkgs = {
+                from = { id = "nixpkgs"; type = "indirect"; };
+                to = { type = "path"; path = nixpkgs; };
+              };
+              nixpkgs-unstable = {
+                from = { id = "nixpkgs-unstable"; type = "indirect"; };
+                to = { type = "path"; path = nixpkgs-unstable; };
+              };
+              home-manager = {
+                from = { id = "home-manager"; type = "indirect"; };
+                to = {
+                  type = "github";
+                  owner = "nix-community";
+                  repo="home-manager";
+                  ref="release-24.11";
+                };
+              };
+            };
+          }
         ];
       };
     };
