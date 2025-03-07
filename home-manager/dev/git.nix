@@ -32,4 +32,13 @@
       ];
     };
   };
+
+  home.file = {
+    ".gnupg/scdaemon.conf" = {
+      # for gnupg smartcard support
+      text = ''
+        disable-ccid
+      '';
+    };
+  };
 }

@@ -1,4 +1,4 @@
-{ unstable }: { pkgs, ... }:
+{ pkgs, ... }:
 let
   build-tools = with pkgs; [
     clang_14
@@ -31,6 +31,7 @@ let
     # jetbrains.datagrip
     jetbrains.idea-ultimate
     jetbrains.clion
+    android-studio
     (callPackage ./../custom-pkgs/jetbrains-fleet.nix { })
   ];
   tools = with pkgs; [
@@ -40,13 +41,15 @@ let
     zeal
     git
     gitkraken
+    github-desktop
     direnv
     lazygit
     lazysql
     lazycli
     infisical
+    android-tools
   ];
-  unstable-pkgs = with unstable; [
+  unstable-pkgs = with pkgs.unstable; [
     flarectl
     linode-cli
     awscli2
@@ -55,9 +58,7 @@ in
 {
   imports = [
     ./python.nix
-    ./nvim.nix
-    ( import ./vscode.nix { inherit unstable; } )
-    ( import ./nix-dev.nix { inherit unstable; } )
+    ./nix-dev.nix
     ./git.nix
   ];
 

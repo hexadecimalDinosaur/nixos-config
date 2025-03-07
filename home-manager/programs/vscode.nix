@@ -1,6 +1,6 @@
-{ unstable }: { pkgs, ... }:
+{ pkgs, ... }:
 {
-  home.packages = with unstable; [
+  home.packages = with pkgs; [
     (vscode-with-extensions.override {
       vscodeExtensions = with vscode-extensions; [
         # infra
@@ -43,6 +43,7 @@
         eamodio.gitlens
         esbenp.prettier-vscode
         ms-vscode.hexeditor
+        mkhl.direnv
 
         # writing
         yzhang.markdown-all-in-one
