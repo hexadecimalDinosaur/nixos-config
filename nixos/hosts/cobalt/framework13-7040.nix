@@ -3,7 +3,7 @@ let
   framework-grub-theme-hidpi = pkgs.fetchzip {
     url = "https://github.com/mrjpaxton/framework-hidpi-grub-theme/raw/4f94efc3559e4e6ca2714382c930fb031a9563b7/framework-hidpi.tar.gz";
     hash = "sha256-NOX/I+zT9HTsWPkx/u9eLM2vuiudhDjSULgj/es18L0=";
-    extraPostFetch = ''
+    postFetch = ''
       cp "$out/theme-dark.txt" "$out/theme.txt"
     '';
   };
