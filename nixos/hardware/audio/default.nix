@@ -2,7 +2,8 @@
 {
   imports = [
     # ./echo-cancellation.nix
-    # ./headphone-speaker-split.nix
+    ./low-latency.nix
+    ./moonriver2.nix
   ];
 
   services = {
@@ -11,7 +12,7 @@
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      #jack.enable = true;
+      jack.enable = true;
       #media-session.enable = true;
       wireplumber.extraConfig = {
         bluetoothEnhancements = {
@@ -39,7 +40,6 @@
     easyeffects
     bankstown-lv2
     lsp-plugins
-    carla
     alsa-utils
   ];
 }

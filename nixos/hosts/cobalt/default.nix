@@ -9,14 +9,25 @@
 
   boot = {
     kernelPackages = pkgs.linuxKernel.packages.linux_zen;
-    initrd.luks.devices = {
-      "luks-5643747d-1a2e-4995-afc6-394eb25fa846" = {  # luks root
-        device = "/dev/disk/by-uuid/5643747d-1a2e-4995-afc6-394eb25fa846";
+    initrd = {
+      systemd = {
+        # enable = true;
       };
-      "luks-b42c9627-a8fc-4849-84cf-a08eac7d183b" = {  # luks swap
-        device = "/dev/disk/by-uuid/b42c9627-a8fc-4849-84cf-a08eac7d183b";
+      luks = {
+        # fido2Support = false;  # use systemd instead
+        devices = {
+          "luks-5643747d-1a2e-4995-afc6-394eb25fa846" = {  # luks root
+            device = "/dev/disk/by-uuid/5643747d-1a2e-4995-afc6-394eb25fa846";
+            # crypttabExtraOpts = ["fido2-device=auto"];
+          };
+          "luks-b42c9627-a8fc-4849-84cf-a08eac7d183b" = {  # luks swap
+            device = "/dev/disk/by-uuid/b42c9627-a8fc-4849-84cf-a08eac7d183b";
+            # crypttabExtraOpts = ["fido2-device=auto"];
+          };
+        };
       };
     };
+    tmp.cleanOnBoot = true;
   };
   swapDevices = [
     { device = "/dev/disk/by-uuid/27eb06ae-c7af-46c9-9608-b06e7aaa065f"; }
@@ -31,11 +42,6 @@
       fsType = "vfat";
       options = [ "fmask=0077" "dmask=0077" ];
       };
-    "/tmp" = {
-      device = "none";
-      fsType = "tmpfs";
-      options = [ "size=16G" "mode=777" ];
-    };
   };
 
   system.stateVersion = "24.11"; # do not change

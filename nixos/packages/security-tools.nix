@@ -1,6 +1,6 @@
-{ pkgs, lib, unstable, ... }:
+{ pkgs, lib, ... }:
 {
-  environment.systemPackages = (with pkgs; [
+  environment.systemPackages = with pkgs; [
     tor
     tor-browser
     onionshare-gui
@@ -21,12 +21,12 @@
     age-plugin-yubikey
     age-plugin-fido2-hmac
     gocryptfs
+    sirikali
+    unstable.cryptomator
     # backups
     rsync
     restic
     restic-integrity
     resticprofile
-  ]) ++ [
-    unstable.cryptomator
   ];
 }

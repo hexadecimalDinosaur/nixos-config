@@ -3,24 +3,19 @@
   environment.systemPackages = with pkgs; [
     logseq
     typora
-    prusa-slicer
-    xournalpp
     electrum
     flameshot
-    inkscape
-    gimp
     appimage-run
     deepin.deepin-picker
     eyedropper
-    floorp
-    ungoogled-chromium
     libreoffice-qt6-fresh
-    drawio
     qalculate-qt
+    # web
+    ungoogled-chromium
+    floorp
     # file transfer
     nextcloud-client
     filezilla
-    persepolis
     wget
     curl
     aria2
@@ -28,9 +23,6 @@
     cifs-utils
     rclone
     samba
-    # cad
-    blender-hip
-    kicad
     # latex
     kile
     texliveFull
@@ -38,7 +30,6 @@
     ghostscript
     # communication
     thunderbird-latest
-    birdtray
     discord
     betterdiscordctl
     signal-desktop

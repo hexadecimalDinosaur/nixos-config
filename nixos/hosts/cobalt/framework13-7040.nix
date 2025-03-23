@@ -1,4 +1,4 @@
-{ pkgs, config, ... }:
+{ pkgs, ... }:
 let
   framework-grub-theme-hidpi = pkgs.fetchzip {
     url = "https://github.com/mrjpaxton/framework-hidpi-grub-theme/raw/4f94efc3559e4e6ca2714382c930fb031a9563b7/framework-hidpi.tar.gz";
@@ -12,7 +12,13 @@ in
   imports = [
     ./../../hardware/amd.nix
     ./../../hardware/thunderbolt.nix
-    ./../../hardware/audio/headphone-speaker-split.nix
+    ( import ./../../hardware/audio/headphone-speaker-split.nix {
+      codec = "ALC295";
+      pcie-vendor-id = "0x1022";
+      pcie-device-id = "0x15e3";
+      alsa-vendor-id = "0x10ec0295";
+      alsa-subsystem-id = "0x10ec0295";
+    })
   ];
 
   hardware = {
@@ -31,9 +37,9 @@ in
 
   services.pipewire.wireplumber.extraConfig = {
     framework-defaults = {
-      # "wireplumber.settings" = {
-      #   "device.restore-routes" = false;
-      # };
+      "wireplumber.settings" = {
+        "device.restore-routes" = false;
+      };
       "monitor.alsa.rules" = [
         {
           matches = [
@@ -63,5 +69,9 @@ in
     loader.grub = {
       theme = "${framework-grub-theme-hidpi}";
     };
+  };
+
+  environment.sessionVariables = {
+    _JAVA_OPTIONS = "-Dsun.java2d.uiScale=2";
   };
 }

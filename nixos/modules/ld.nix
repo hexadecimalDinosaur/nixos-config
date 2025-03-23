@@ -1,8 +1,14 @@
-{ pkgs, config, libs, ... }:
+{ pkgs, ... }:
 {
-  programs.nix-ld.enable = true;
-  programs.nix-ld.libraries = with pkgs; [
-    zlib
-    stdenv.cc.cc
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      zlib
+      stdenv.cc.cc
+    ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    nix-alien
   ];
 }

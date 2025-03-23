@@ -1,16 +1,11 @@
-{ unstable, config, pkgs, ... }:
+{ pkgs, ... }:
 {
-  programs.zsh.enable = true;
-  programs.mtr.enable = true;
+  programs = {
+    zsh.enable = true;
+    mtr.enable = true;
+  };
 
-  environment.systemPackages = (with unstable; [
-  ]) ++ (with pkgs; [
-    # nix
-    nix-index
-    nix-du
-    nix-btm
-    nix-inspect
-    hydra-check
+  environment.systemPackages = with pkgs; [
     # sysinfo
     neofetch
     hyfetch
@@ -68,5 +63,5 @@
     calcurse
     font-config-info
     jq
-  ]);
+  ];
 }
