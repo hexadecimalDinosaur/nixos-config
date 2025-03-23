@@ -1,9 +1,6 @@
 { config, pkgs, ... }:
 {
   boot = {
-    initrd = {
-      kernelModules = [ "amdgpu" ];
-    };
     kernelModules = [ "kvm-amd" ];
     extraModulePackages = with config.boot.kernelPackages; [
       # zenpower
@@ -23,5 +20,7 @@
         driversi686Linux.amdvlk
       ];
     };
+
+    amdgpu.initrd.enable = true;
   };
 }
