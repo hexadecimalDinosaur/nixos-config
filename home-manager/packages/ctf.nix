@@ -21,6 +21,7 @@ let
     upx
     detect-it-easy
     apktool
+    goresym
 
     # malware analysis
     # ===================
@@ -35,6 +36,7 @@ let
     tcpdump
     ngrep
     httptoolkit
+    vt-cli
 
     # disks
     # ===================
@@ -103,9 +105,12 @@ let
     # linux-exploit-suggester
     # data collection
     # responder
+
     # exploitation
+    # ===================
     metasploit
     pacu
+    powersploit
 
     # brute force attacks
     # ===================
@@ -158,6 +163,7 @@ in
     # analysis
     # ===================
     yara-python
+    vt-py
 
     ( callPackage ./../custom-pkgs/android-unpinner.nix { } )
   ];

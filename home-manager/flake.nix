@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "flake:nixpkgs";
     nixpkgs-unstable.url = "flake:nixpkgs-unstable";
+
     home-manager = {
       url = "flake:home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,30 +13,21 @@
       url = "flake:nixos-config-secrets";
       flake = false;
     };
+    spicetify-nix = {
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
-  outputs = { nixpkgs, home-manager, nixpkgs-unstable, secrets, ... }:
+  outputs = { nixpkgs, home-manager, nixpkgs-unstable, spicetify-nix, secrets, ... }:
     let
       system = "x86_64-linux";
-      config = {
-        allowUnfree = true;
-        permittedInsecurePackages = [
-          "olm-3.2.16"
-          "electron-31.7.7"
-          "cinny-4.2.3"
-          "cinny-unwrapped-4.2.3"
-        ];
-      };
-      overlay-unstable = final: prev: {
-        unstable = import nixpkgs-unstable {
-          inherit system;
-          inherit config;
-        };
-      };
       pkgs = import nixpkgs {
         inherit system;
-        inherit config;
-        overlays = [ overlay-unstable ];
+        overlays = [
+          (import ./overlays/unstable.nix { inherit nixpkgs-unstable; })
+          (import ./overlays/spicetify.nix { inherit spicetify-nix; })
+        ];
       };
     in {
       homeConfigurations."hexa" = home-manager.lib.homeManagerConfiguration {
@@ -44,7 +36,10 @@
           inherit secrets;
         };
 
-        modules = [ ./home.nix ];
+        modules = [
+          ./home.nix
+          spicetify-nix.homeManagerModules.spicetify
+        ];
       };
     };
 }

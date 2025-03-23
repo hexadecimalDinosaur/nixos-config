@@ -3,7 +3,7 @@
 
 stdenv.mkDerivation rec {
   pname = "binaryninja";
-  version = "2025.02.19-dev";
+  version = "4.3.6898-dev";
   description = "Binary Ninja: A Reverse Engineering Platform";
 
   src = fetchzip {

@@ -9,6 +9,9 @@
         commit = {
           gpgsign = true;
         };
+        tag = {
+          gpgsign = true;
+        };
         signing.signByDefault = true;
         delta.enable = true;
         push = {

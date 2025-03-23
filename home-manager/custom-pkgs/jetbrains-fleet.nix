@@ -5,6 +5,7 @@
   autoPatchelfHook,
   makeWrapper,
   makeDesktopItem,
+  copyDesktopItems,
 
   jetbrains,
   fontconfig,
@@ -12,15 +13,16 @@
   xorg,
   libGL,
   alsa-lib,
-  wayland
+  wayland,
+  imagemagick,
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "jetbrains-fleet";
-  version = "1.45.163";
+  version = "1.46.97";
 
   src = fetchzip {
     url = "https://download-cdn.jetbrains.com/fleet/installers/linux_x64/Fleet-${finalAttrs.version}.tar.gz";
-    hash = "sha256-lfIXlZv+tOdtT97BXga5SremZN+G56UBwHEP7nbqse0=";
+    hash = "sha256-BgUHBN5sOxw/4UHunpjaErZ64o8LPnr42SqFqD327JM=";
     stripRoot = true;
   };
 
@@ -45,6 +47,8 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     autoPatchelfHook
     makeWrapper
+    copyDesktopItems
+    imagemagick
   ];
 
   installPhase = ''
@@ -64,8 +68,11 @@ stdenv.mkDerivation (finalAttrs: {
     mkdir $out/bin
     makeWrapper $out/fleet/bin/Fleet $out/bin/fleet
 
-    mkdir -p $out/share/icons/hicolor/1024x1024/apps
-    cp $src/lib/Fleet.png $out/share/icons/hicolor/1024x1024/apps/jetbrains-fleet.png
+    mkdir -p $out/share/icons/hicolor/{1024x1024,512x512,256x256,128x128}/apps
+    convert $src/lib/Fleet.png -resize 1024x1024 $out/share/icons/hicolor/1024x1024/apps/jetbrains-fleet.png
+    convert $src/lib/Fleet.png -resize 512x512 $out/share/icons/hicolor/512x512/apps/jetbrains-fleet.png
+    convert $src/lib/Fleet.png -resize 256x256 $out/share/icons/hicolor/256x256/apps/jetbrains-fleet.png
+    convert $src/lib/Fleet.png -resize 128x128 $out/share/icons/hicolor/128x128/apps/jetbrains-fleet.png
 
     runHook postInstall
   '';
