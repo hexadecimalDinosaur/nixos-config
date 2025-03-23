@@ -48,11 +48,12 @@ let
     lazycli
     infisical
     android-tools
-  ];
-  unstable-pkgs = with pkgs.unstable; [
-    flarectl
-    linode-cli
-    awscli2
+    unstable.flarectl
+    unstable.linode-cli
+    unstable.awscli2
+    unstable.azure-cli
+    unstable.backblaze-b2
+    unstable.powershell
   ];
 in
 {
@@ -77,6 +78,5 @@ in
     debuggers
     ides
     tools
-    unstable-pkgs
   ];
 }

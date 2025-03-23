@@ -3,15 +3,24 @@
   imports = [
     ./media.nix
     ./ctf.nix
+    ./cad.nix
+    ./graphics.nix
   ];
+
+  nixpkgs.config = {
+    allowUnfree = true;
+    permittedInsecurePackages = [
+      "olm-3.2.16"
+      "electron-31.7.7"
+      "cinny-4.2.3"
+      "cinny-unwrapped-4.2.3"
+    ];
+  };
 
   home.packages = (with pkgs; [
     eyedropper
-    vcv-rack
-    fedifetcher
     ricochet-refresh
     osu-lazer
-    upscayl
     keybase-gui
     keybase
     kbfs
@@ -23,11 +32,10 @@
     apkeep
     qtscrcpy
     desktop-file-utils
+    toolong
   ]) ++ (with pkgs.unstable; [
-    anytype
     nheko
     cinny-desktop
-    kdePackages.karousel
     zoom-us
     teams-for-linux
     halloy

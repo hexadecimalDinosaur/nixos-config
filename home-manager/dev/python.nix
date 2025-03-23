@@ -22,6 +22,7 @@ in
 
       # databases
       sqlalchemy
+      alembic
 
       # flask
       flask
@@ -32,6 +33,11 @@ in
       # fastapi
       fastapi
       fastapi-cli
+
+      # cli
+      rich
+      click
+      iterfzf
 
       # otel
       opentelemetry-api
@@ -45,7 +51,6 @@ in
 
       # jupyter
       ipython
-      rich
       jupyter
       matplotlib
       qtconsole
@@ -72,6 +77,9 @@ in
       isort
       ptpython
       pydevd
+      pipenv-poetry-migrate
+      conda
+      pip
 
       # integrations
       pynvim
@@ -89,6 +97,7 @@ in
 
       # pytest
       pytest
+      pytest-flask
 
       # mypy
       mypy
@@ -113,11 +122,44 @@ in
       ];
     };
 
-    home.packages = [
-      pkgs.pyright
-      pkgs.nbqa
-      pkgs.djhtml
+    home.packages = with pkgs; [
+      pyright
+      nbqa
+      djhtml
+      pipenv
+      poetry
+      poetry2conda
+      uv
       fzf-tab-completion
+      (buildFHSEnv {
+        name = "pyenv";
+        runScript = "pyenv";
+        targetPkgs = pkgs: with pkgs; [
+          pyenv
+          bzip2
+          git
+          libffi
+          libxcrypt
+          libxml2
+          libxslt
+          libzip
+          xz
+          ncurses
+          openssl
+          pkg-config
+          readline
+          sqlite
+          stdenv.cc.cc
+          taglib
+          tk
+          zlib
+        ];
+      })
+      (buildFHSEnv {
+        name = "pixi";
+        runScript = "pixi";
+        targetPkgs = pkgs: with pkgs; [ pixi ];
+      })
       (pkgs.python312.withPackages (
         ps: builtins.concatMap (f: f ps) config.py3Pkgs
       ))

@@ -5,6 +5,10 @@
       enable = true;
       enableZshIntegration = true;
     };
+    lsd = {
+      enable = true;
+      enableAliases = true;
+    };
     bat = {
       enable = true;
       config = {

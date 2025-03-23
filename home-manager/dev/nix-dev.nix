@@ -9,5 +9,8 @@
     nix-btm
     nix-inspect
     nurl
+    manix
+    nix-melt
+    nvd
   ];
 }
