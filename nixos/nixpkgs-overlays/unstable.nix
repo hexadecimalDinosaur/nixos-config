@@ -3,7 +3,7 @@
   final: prev:
   {
     unstable = import nixpkgs-unstable {
-      inherit (prev) system;
+      inherit (prev) system config;
     };
   }
 )

@@ -1,11 +1,15 @@
 { pkgs, ... }:
 {
-  environment = {
-    plasma6.excludePackages = with pkgs; [
-      kdePackages.kdepim-runtime
-      kdePackages.akonadi-calendar
-    ];
+  services = {
+    displayManager = {
+      sddm.enable = true;
+    };
+    desktopManager = {
+      plasma6.enable = true;
+    };
+  };
 
+  environment = {
     systemPackages = with pkgs; [
       # office
       kdePackages.okular
@@ -13,17 +17,6 @@
       # edu
       kstars
       crow-translate
-      # media
-      kdePackages.plasmatube
-      kdePackages.krecorder
-      kdePackages.kasts
-      kdePackages.kdenlive
-      # games
-      kdePackages.kigo
-      kdePackages.kmines
-      kdePackages.kpat
-      kdePackages.ksudoku
-      kdePackages.kreversi
       # plasma settings
       kdePackages.plasma-workspace-wallpapers
       kdePackages.kgamma
@@ -39,10 +32,11 @@
       kdePackages.ktorrent
       kdePackages.kruler
       kdePackages.kget
-      kdePackages.keysmith
       kdePackages.kcolorchooser
       kdePackages.kclock
       kdePackages.ksystemlog
+      kdePackages.krfb
+      kdePackages.krdc
       # dev
       kdePackages.yakuake
       kdePackages.kate

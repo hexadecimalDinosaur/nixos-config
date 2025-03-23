@@ -1,13 +1,22 @@
 # https://github.com/luisbocanegra/linux-guide-split-audio-ports
+{
+  codec,
+  pcie-vendor-id,
+  pcie-device-id,
+  alsa-vendor-id,
+  alsa-subsystem-id,
+  alsa-speaker-device ? 0,
+  alsa-headphones-device ? 2,
+}:
 { pkgs, ... }:
 let
   alsa-split-ports = pkgs.writeShellApplication {
     name = "alsa-split-ports.sh";
     runtimeInputs = [ pkgs.bash pkgs.gnugrep pkgs.alsa-utils  ];
     text = /* bash */ ''
-      CODEC="ALC295"
-      VENDOR_ID="0x10ec0295"
-      SUBSYSTEM_ID="0xf1110006"
+      CODEC="${codec}"
+      VENDOR_ID="${alsa-vendor-id}"
+      SUBSYSTEM_ID="${alsa-subsystem-id}"
       HINTS="indep_hp = yes
       vmaster = no
       "
@@ -66,21 +75,21 @@ in
         src = "${pkgs.pipewire.out}/share/alsa-card-profile/mixer/paths/analog-output-speaker.conf";
         substitutions = [
           "--replace-fail"
-          ''
+          /* ini */ ''
             [Jack Headphone]
             state.plugged = no
           ''
-          ''
+          /* ini */ ''
             [Jack Headphone]
             state.plugged = unknown
           ''
           "--replace-fail"
-          ''
+          /* ini */ ''
             [Element Headphone]
             switch = off
             volume = off
           ''
-          ''
+          /* ini */ ''
             ;[Element Headphone]
             ;switch = off
             ;volume = off
@@ -95,14 +104,14 @@ in
 
         [Mapping analog-stereo-speaker]
         description = Speakers
-        device-strings = hw:%f,0
+        device-strings = hw:%f,${builtins.toString alsa-speaker-device}
         paths-output = analog-output-speaker-split
         channel-map = left,right
         direction = output
 
         [Mapping analog-stereo-headphones]
         description = Headphones
-        device-strings = hw:%f,2
+        device-strings = hw:%f,${builtins.toString alsa-headphones-device}
         paths-output = analog-output-headphones
         channel-map = left,right
         direction = output
@@ -128,14 +137,14 @@ in
     };
   };
   services.udev.extraRules = /* udev */ ''
-    SUBSYSTEM!="sound", GOTO="pipewire_end"
-    ACTION!="change", GOTO="pipewire_end"
-    KERNEL!="card*", GOTO="pipewire_end"
+    SUBSYSTEM!="sound", GOTO="pipewire_split_end"
+    ACTION!="change", GOTO="pipewire_split_end"
+    KERNEL!="card*", GOTO="pipewire_split_end"
 
-    SUBSYSTEMS=="pci", ATTRS{vendor}=="0x1022", ATTRS{device}=="0x15e3", \
+    SUBSYSTEMS=="pci", ATTRS{vendor}=="${pcie-vendor-id}", ATTRS{device}=="${pcie-device-id}", \
     ENV{ACP_PROFILE_SET}="/etc/alsa-card-profile/mixer/profile-sets/split-ports-profile.conf", \
     RUN+="${alsa-split-ports}/bin/alsa-split-ports.sh"
 
-    LABEL="pipewire_end"
+    LABEL="pipewire_split_end"
   '';
 }

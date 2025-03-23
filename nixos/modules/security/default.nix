@@ -1,4 +1,4 @@
-{ pkgs, config, libs, ... }:
+{ pkgs, ... }:
 {
   imports = [
     ./firewall.nix
@@ -14,13 +14,16 @@
   security = {
     auditd.enable = true;
     audit.enable = true;
+
+    polkit.enable = true;
+
+    tpm2 = {
+      enable = true;
+      pkcs11.enable = true;
+      tctiEnvironment.enable = true;
+    };
   };
 
-  security.tpm2 = {
-    enable = true;
-    pkcs11.enable = true;
-    tctiEnvironment.enable = true;
-  };
 
   environment.systemPackages = with pkgs; [
     tpm2-tools

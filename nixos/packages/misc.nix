@@ -1,13 +1,12 @@
-{ pkgs, unstable, ... }:
+{ pkgs, ... }:
 {
-  environment.systemPackages = (with pkgs; [
+  environment.systemPackages = with pkgs; [
     gparted
     fuse-archive
     sshfs
     fuse3
     fuseiso
-  ]) ++ (with unstable; [
-  ]);
+  ];
 
   programs = {
     weylus = {

@@ -33,13 +33,14 @@
     lightly-qt
     whitesur-kde
     qogir-kde
-    catppuccin-kde
+    (catppuccin-kde.override {
+      flavour = [ "mocha" "macchiato" "frappe" "latte" ];
+      accents = [ "lavender" "sapphire" "rosewater" "teal" ];
+    })
     # plasma addons
-    kdePackages.sierra-breeze-enhanced
-    kdePackages.karousel
-    kdePackages.applet-window-buttons6
-    material-kwin-decoration
-    sierra-breeze-enhanced
+      #unstable.kdePackages.sierra-breeze-enhanced
+    unstable.kdePackages.karousel
+    unstable.kdePackages.applet-window-buttons6
     # sounds
     kdePackages.oxygen-sounds
     pantheon.elementary-sound-theme
